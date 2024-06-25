@@ -17,6 +17,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  phoneNumber:{
+    type:Number
+  },
+  age:{
+    type:Number
+  },
   role: {
     type: String,
     enum: ['user', 'admin'],
@@ -49,7 +55,7 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 
 // Method to generate JWT token
 userSchema.methods.generateAccessToken = function () {
-  return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN_SECRET, {
+  return jwt.sign({ _id: this._id }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: '10d',
   });
 };

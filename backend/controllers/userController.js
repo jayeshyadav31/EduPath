@@ -66,5 +66,79 @@ const loginUser = async (req, res, next) => {
         next(new ApiError(500, `Error in logging in user: ${error.message}`));
     }
 };
+const updateUser=async(req,res)=>{
+    try {
+        const {username,password,age,email,phoneNumber}=req.body
+        const userId=req.user._id
+        if (!userId) {
+            return res.status(400).json({ error: "User ID is missing" });
+        }
 
-export { loginUser, signUpUser };
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        if(username){
+            user.username=username
+        }
+        if(age){
+            user.age=age
+        }
+        if(email){
+            user.email=email
+        }
+        if(phoneNumber){
+            user.phoneNumber=phoneNumber
+        }
+        let accessToken
+        if(password){
+            user.password=password
+            accessToken=await user.generateAccessToken()
+        }
+        await user.save()
+        const options={
+            httpOnly:true,
+            secure:true
+        }
+        const responsePayload = {
+            username: user.username,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            age: user.age,
+            role: user.role,
+        };
+
+        if (accessToken) {
+            return res.status(200).cookie("accessToken", accessToken, options).json(responsePayload);
+        } else {
+            return res.status(200).json(responsePayload);
+        }
+    } catch (error) {
+        console.log(`error in the update user ${error.message}`);
+    }
+}
+const logoutUser = async (req, res) => {
+    try {
+        const options = {
+            httpOnly: true,
+            secure: true
+        };
+        return res
+            .status(200)
+            .clearCookie("accessToken", options)
+            .json("User logged out");
+    } catch (error) {
+        console.log(`Error in logoutUser: ${error.message}`);
+        return res.status(500).json({ message: "Error in logout user", error: error.message });
+    }
+};
+const updateProfilePic =async(req,res)=>{
+    try {
+        const file=req.file?.path
+        console.log(file);
+    } catch (error) {
+        console.error(`Error in loginUser: ${error.message}`);
+        next(new ApiError(500, `Error in logging in user: ${error.message}`));
+    }
+}
+export { loginUser, signUpUser,updateUser,logoutUser,updateProfilePic };
