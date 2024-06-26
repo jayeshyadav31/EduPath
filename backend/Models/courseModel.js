@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const lectureSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    // required: true,
   },
   description: {
     type: String,
-    required: true,
+    // required: true,
   },
   videoFile: {
     type: String, // Assuming this stores a URL or a path to the video file.
@@ -19,31 +19,24 @@ const lectureSchema = new mongoose.Schema({
 const courseSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true
+    // required: true
   },
   description: {
     type: String,
-    required: true
+    // required: true
   },
-  instructor_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+  instructor_name: {
+    type: String,
+    // required: true
   },
   thumbnail: {
     type: String
   },
-  lectures: [lectureSchema],
-  poster: {
-    public_id: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
+  price:{
+    type:Number,
+    default:0
   },
+  lectures: [lectureSchema],
   category: {
     type: String
   },

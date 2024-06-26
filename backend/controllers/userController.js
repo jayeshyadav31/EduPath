@@ -1,6 +1,6 @@
 import User from "../Models/userModel.js";
 import ApiError from "../utils/ApiError.js";
-
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 const signUpUser = async (req, res, next) => {
     try {
         const { username, email, password, role } = req.body;
@@ -135,10 +135,18 @@ const logoutUser = async (req, res) => {
 const updateProfilePic =async(req,res)=>{
     try {
         const file=req.file?.path
-        console.log(file);
+        if(!file){
+            return res.status(401).json("ProfilePic Not Found")
+        }
+        const response=await uploadOnCloudinary(file)
+        // console.log(response);
+        const user=await User.findById(req.user._id)
+        user.profilePic=response.secure_url
+        await user.save()
+        return res.status(200).json({"profilePic updated successfully": user})
     } catch (error) {
         console.error(`Error in loginUser: ${error.message}`);
-        next(new ApiError(500, `Error in logging in user: ${error.message}`));
+        new ApiError(500, `Error in logging in user: ${error.message}`)
     }
 }
 export { loginUser, signUpUser,updateUser,logoutUser,updateProfilePic };
