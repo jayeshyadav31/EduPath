@@ -12,25 +12,24 @@ const lectureSchema = new mongoose.Schema({
   videoFile: {
     type: String, // Assuming this stores a URL or a path to the video file.
   },
-}, {
-  timestamps: true // If you want timestamps for individual lectures
 });
 
 const courseSchema = new mongoose.Schema({
   title: {
     type: String,
-    // required: true
+    required: true
   },
   description: {
     type: String,
-    // required: true
+    required: true
   },
   instructor_name: {
     type: String,
-    // required: true
+    required: true
   },
   thumbnail: {
-    type: String
+    type: String,
+    required:true,
   },
   price:{
     type:Number,
