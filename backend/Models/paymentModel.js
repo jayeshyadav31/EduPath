@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const paymentSchema = new mongoose.Schema({
   user_id: {
@@ -10,6 +10,10 @@ const paymentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Course',
     required: true
+  },
+  payment_id:{
+    type:String,
+    required:true
   },
   amount: {
     type: Number,
