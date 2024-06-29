@@ -37,21 +37,21 @@ const signUpUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
     try {
-        const { email, password } = req.body;
-        console.log("Received request to log in user with email:", email);
+        const { username, password } = req.body;
+        console.log("Received request to log in user with username:", username);
 
-        if (!email || !password) {
+        if (!username || !password) {
             throw new ApiError(400, "All fields are required");
         }
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ username });
         if (!user) {
-            return res.status(401).json({ message: "Invalid email or password" });
+            return res.status(401).json({ message: "Invalid username or password" });
         }
 
         const isPasswordValid = await user.isPasswordCorrect(password);
         if (!isPasswordValid) {
-            return res.status(401).json({ message: "Invalid email or password" });
+            return res.status(401).json({ message: "Invalid username or password" });
         }
 
         const accessToken = user.generateAccessToken();

@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const lectureSchema = new mongoose.Schema({
   title: {
     type: String,
-    // required: true,
+    required: true,
   },
   description: {
     type: String,
-    // required: true,
+    required: true,
   },
   videoFile: {
     type: String, // Assuming this stores a URL or a path to the video file.
