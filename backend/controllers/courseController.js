@@ -39,7 +39,7 @@ const createCourse = async (req, res) => {
 const getAllCourses=async(req,res)=>{
     try {
         const courses=await Course.find()
-        return res.status(200).json({"All courses fetched successfully":courses})
+        return res.status(200).json(courses)
     } catch (error) {
         console.log(`error in finding courses ${error.message}`)
         throw new ApiError(500,"error in creating  getAllCourses")
@@ -53,7 +53,8 @@ const getCourseDetails=async(req,res)=>{
         if(!course){
             return res.status(404).json("No course found with this courseId")
         }
-        return res.status(200).json({"info fetched successfully":course})
+        console.log("info fetched successfully")
+        return res.status(200).json(course)
     } catch (error) {
         console.log(`error in getting courses details ${error.message}`)
         throw new ApiError(500,"error in getting course details")
@@ -77,8 +78,9 @@ const subscribeToCourse = async (req, res) => {
       course.subscribers.push(userId);
   
       await course.save();
-  
-      res.status(200).json({ message: 'Subscribed to course successfully', course });
+
+      console.log('Subscribed to course successfully');
+      res.status(200).json(course );
     } catch (error) {
       console.error(`Error in subscribing to course: ${error.message}`);
       res.status(500).json(new ApiError(500, `Error in subscribing to course: ${error.message}`));

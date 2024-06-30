@@ -1,21 +1,22 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import { Toaster } from 'react-hot-toast'
 import SignupPage from './pages/SignupPage'
-
+import { useAuthContext } from './context/AuthContext'
+import HomePage from './pages/HomePage'
+import Header from './components/Header'
 function App() {
-  const [count, setCount] = useState(0)
-
+  const {authUser}=useAuthContext()
+  const navigate=useNavigate()
   return (
-    <div className='justify-center h-screen flex p-4 items-center'>
+    <div className='justify-center h-screen flex-col p-4 items-center'>
       <Toaster/>
+      <Header/>
      <Routes>
-        <Route path='/' element={<LoginPage/>}/>
-        <Route path='/signup' element={<SignupPage/>} />
+        <Route path='/' element={authUser?<HomePage/>:navigate('/login')} />
+        <Route path='/login' element={authUser?navigate('/'):<LoginPage/>}/>
+        <Route path='/signup' element={authUser?navigate('/'):<SignupPage/>} />
      </Routes>
     </div>
   )

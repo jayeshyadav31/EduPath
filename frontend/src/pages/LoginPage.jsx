@@ -20,7 +20,7 @@ function LoginPage() {
         login(inputs)
     }
   return (
-    <div className='flex flex-col items-center justify-center min-w-96 mx-auto bg-slate-300 font-serif '>
+    <div className='flex flex-col items-center justify-centerv w-48 min-w-96 mx-auto bg-slate-300 font-serif '>
         <div className='w-full rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter 
         backdrop-blur-lg bg-opacity-0 border-2 border-gray-400 p-4'>
             <h1 className='text-3xl font-semibold text-center text-gray-500 mb-4 '>

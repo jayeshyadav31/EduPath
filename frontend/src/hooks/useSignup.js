@@ -1,15 +1,15 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-// import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../context/AuthContext";
+
 const useSignup = () => {
 	const [loading, setLoading] = useState(false);
-	// const { setAuthUser } = useAuthContext();
+	const {setAuthUser}=useAuthContext()
 
 	const signup = async ({ username,email, password, confirmPassword}) => {
         console.log(username,email,password,confirmPassword);
 		const success = handleInputErrors({ username,email, password, confirmPassword});
 		if (!success) return;
-
 		setLoading(true);
 		try {
             console.log("at hook signup");
@@ -23,9 +23,10 @@ const useSignup = () => {
 			if (data.error) {
 				throw new Error(data.error);
 			}
+			setAuthUser(data);
 			localStorage.setItem("user", JSON.stringify(data));
             toast.success("Account Created successfully");
-			// setAuthUser(data);
+			
 		} catch (error) {
 			toast.error(error.message);
 		} finally {
