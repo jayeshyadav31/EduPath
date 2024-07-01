@@ -26,22 +26,7 @@ function HomePage() {
       }
     };
     fetchCourses();
-  }, [courses]);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 2500);
-
-    return () => clearInterval(interval);
   }, []);
-
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-  };
   if (loading) {
     return <div>Loading...</div>;
   }

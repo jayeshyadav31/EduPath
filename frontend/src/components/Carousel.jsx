@@ -16,8 +16,8 @@ const Carousel = () => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 5000);
 
-    return () => clearInterval(interval);
-  }, [images.length]); // Only update on image changes
+    return () => clearInterval(interval); // Cleanup function
+  }, [images.length]);
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));

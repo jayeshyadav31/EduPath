@@ -60,6 +60,7 @@ const loginUser = async (req, res, next) => {
         return res.status(200).cookie("accessToken", accessToken, options).json({
             userName: user.username,
             email: user.email,
+            _id:user._id
         });
     } catch (error) {
         console.error(`Error in loginUser: ${error.message}`);
@@ -134,14 +135,15 @@ const logoutUser = async (req, res) => {
 };
 const updateProfilePic =async(req,res)=>{
     try {
-        const file=req.file?.path
+        let file=req.file?.path
+        console.log(file);
         if(!file){
             return res.status(401).json("ProfilePic Not Found")
         }
         const response=await uploadOnCloudinary(file)
-        // console.log(response);
         const user=await User.findById(req.user._id)
         user.profilePic=response.secure_url
+        console.log(user);
         await user.save()
         return res.status(200).json({"profilePic updated successfully": user})
     } catch (error) {
@@ -149,4 +151,17 @@ const updateProfilePic =async(req,res)=>{
         new ApiError(500, `Error in logging in user: ${error.message}`)
     }
 }
-export { loginUser, signUpUser,updateUser,logoutUser,updateProfilePic };
+const getUser=async(req,res)=>{
+    try {
+        const id=req.params.id
+        const user=await User.findById(id).select('-password')
+        if(!user){
+            return res.status(404).json("no user found")
+        }
+        return res.status(200).json(user)
+    } catch (error) {
+        console.log("error in get user ",error.message);
+        new ApiError(500,`Error in get user details :${error.message}`)
+    }
+}
+export { loginUser, signUpUser,updateUser,logoutUser,updateProfilePic,getUser };
