@@ -7,7 +7,7 @@ import { useAuthContext } from './context/AuthContext'
 import HomePage from './pages/HomePage'
 import Header from './components/Header'
 import Account from './pages/Account'
-import UpdateUserProfile from './components/UpdateUserProfile'
+import CourseDetailsPage from './pages/CourseDetailsPage'
 function App() {
   const {authUser}=useAuthContext()
   const navigate=useNavigate()
@@ -17,10 +17,10 @@ function App() {
       <Header/>
      <Routes>
         <Route path='/' element={authUser?<HomePage/>:<Navigate to="login"/>} />
-        <Route path='/login' element={<LoginPage/>}/>
-        <Route path='/signup' element={<SignupPage/>} />
+        <Route path='/login' element={authUser?<Navigate to='/'/>:<LoginPage/>}/>
+        <Route path='/signup' element={authUser?<Navigate to='/' />:<SignupPage/>} />
         <Route path='/account' element={authUser?<Account/>:<Navigate to="/login" />} />
-        <Route path='/abc' element={<UpdateUserProfile/>}/>
+        <Route path='/:id' element={authUser?<CourseDetailsPage/>:<Navigate to="login" />} />
      </Routes>
     </div>
   )

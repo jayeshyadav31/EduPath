@@ -18,7 +18,7 @@ function Account() {
     }
 
     fetchUserDetails();
-  }, [authUser, getDetails]);
+  }, [authUser]);
 
   return (
     <div className="flex flex-col gap-4 w-[900px] justify-center ml-[450px]">

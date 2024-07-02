@@ -22,7 +22,7 @@ function LogoutButton() {
                 return;
             }
 
-            localStorage.removeItem("user-threads");
+            localStorage.removeItem("user");
             toast.success("Logged Out Successfully!")
             setAuthUser(null);
         } catch (error) {

@@ -4,7 +4,7 @@ import ApiError from '../utils/ApiError.js';
 import { uploadOnCloudinary } from '../utils/cloudinary.js';
 const createCourse = async (req, res) => {
     try {
-        const { title, description, instructor_name, price, category} = req.body;
+        const { title, description, instructor_name, price, category,language} = req.body;
         // console.log(req.files);
         const respo=await uploadOnCloudinary(req.files['thumbnail'][0].path)
         const thumbnail_url = respo.secure_url
@@ -24,6 +24,7 @@ const createCourse = async (req, res) => {
             description,
             instructor_name,
             price,
+            language,
             category,
             thumbnail: thumbnail_url,
             lectures,

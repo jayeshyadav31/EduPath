@@ -35,6 +35,9 @@ const courseSchema = new mongoose.Schema({
     type:Number,
     default:0
   },
+  language:{
+    type:String
+  },
   lectures: [lectureSchema],
   category: {
     type: String

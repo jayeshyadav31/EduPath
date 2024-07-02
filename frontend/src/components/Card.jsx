@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 function Card({course}) {
+    console.log(course._id);
+    const navigate=useNavigate()
     return(
-    <div className="w-72 h-68 ml-5 rounded-lg overflow-hidden shadow-lg mt-3 cursor-pointer border-2 border-gray-300">
+    <div className="w-72 h-68 ml-5 rounded-lg overflow-hidden shadow-lg mt-3 cursor-pointer border-2 border-gray-300 "
+       onClick={()=>{navigate(`/${course._id}`)}} >
             <div className="w-full">
                 <div className="w-full h-42 border-none">
                     <img src={course.thumbnail} alt="course" className="w-full h-36" />
