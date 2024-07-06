@@ -5,6 +5,7 @@ const savePayment = async (req, res) => {
     try {
         const userId = req.user._id;
         const courseId = req.params.id;
+        console.log(courseId);
         const { payment_id, amount, status } = req.body;
 
         const new_payment = new Payment({

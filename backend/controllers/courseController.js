@@ -65,7 +65,6 @@ const subscribeToCourse = async (req, res) => {
     try {
       const courseId = req.params.id;
       const userId = req.user._id;
-  
       const course = await Course.findById(courseId);
   
       if (!course) {
@@ -73,7 +72,8 @@ const subscribeToCourse = async (req, res) => {
       }
   
       if (course.subscribers.includes(userId)) {
-        return res.status(400).json(new ApiError(400, 'User is already subscribed to this course'));
+        console.log('User is already subscribed to this course');
+        return res.status(400).json('User is already subscribed to this course');
       }
   
       course.subscribers.push(userId);

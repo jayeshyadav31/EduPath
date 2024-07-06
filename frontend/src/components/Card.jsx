@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 function Card({course}) {
-    console.log(course._id);
+    // console.log(course._id);
     const navigate=useNavigate()
     return(
     <div className="w-72 h-68 ml-5 rounded-lg overflow-hidden shadow-lg mt-3 cursor-pointer border-2 border-gray-300 "

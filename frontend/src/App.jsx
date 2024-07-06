@@ -7,7 +7,10 @@ import { useAuthContext } from './context/AuthContext'
 import HomePage from './pages/HomePage'
 import Header from './components/Header'
 import Account from './pages/Account'
+import SuccessPaymentPage from './pages/SuccessPaymentPage'
+import FailurePaymentPage from './pages/FailurePaymentPage'
 import CourseDetailsPage from './pages/CourseDetailsPage'
+import BuyCourse from './pages/BuyCourse'
 function App() {
   const {authUser}=useAuthContext()
   const navigate=useNavigate()
@@ -19,8 +22,11 @@ function App() {
         <Route path='/' element={authUser?<HomePage/>:<Navigate to="login"/>} />
         <Route path='/login' element={authUser?<Navigate to='/'/>:<LoginPage/>}/>
         <Route path='/signup' element={authUser?<Navigate to='/' />:<SignupPage/>} />
+        <Route path='/protected/paymentConf' element={authUser? <SuccessPaymentPage/>:<Navigate to="/auth" /> } />
         <Route path='/account' element={authUser?<Account/>:<Navigate to="/login" />} />
+        <Route path='/cancel' element={authUser ? <FailurePaymentPage/>:<Navigate to="/auth" />} />
         <Route path='/:id' element={authUser?<CourseDetailsPage/>:<Navigate to="login" />} />
+        <Route path='/buyCourse' element={authUser?<BuyCourse/>:<Navigate to="login" />}/>
      </Routes>
     </div>
   )

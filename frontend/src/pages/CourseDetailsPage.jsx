@@ -1,16 +1,24 @@
 import React, { useEffect ,useState} from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import useCourseDetails from '../hooks/useCourseDetails'
+import { useDispatch } from 'react-redux'
+import { useAuthContext }  from '../context/AuthContext'
+import { addCourse } from '../redux/courseSlice'
+import toast from 'react-hot-toast'
 function CourseDetailsPage() {
     const [course,setCourse]=useState()
     const {id}=useParams()
-    useEffect(()=>{
-        const getCourse=async()=>{
-            const res=await fetch(`/api/courses/${id}`)
-            const data=await res.json();
-            setCourse(data);
-        }
-        getCourse()
-    },[])
+    const navigate=useNavigate()
+    const temp=useCourseDetails({id,setCourse})
+    const dispatch =useDispatch()
+    const {authUser}=useAuthContext()
+    const isPurchased = course && course.subscribers?.includes(authUser._id);
+    console.log(isPurchased);
+    const handleBuy=(e)=>{
+        e.preventDefault();
+        dispatch(addCourse(course));
+        navigate('/buyCourse')
+    }
   return (
     <div>
         <div className='flex rounded-md bg-blue-950 h-[300px] p-4 justify-between'>
@@ -30,7 +38,8 @@ function CourseDetailsPage() {
             <div className='mr-10 rounded-lg justify-center border-1 border-gray-500 bg-white w-[300px] '>
                 <img src={course?.thumbnail} alt='course-image' className='rounded-lg w-[300px] h-[150px]'/>
                 <h1 className='font-bold ml-6 mt-2'>₹ {course?.price}</h1>
-                <button className='h-10 text-center w-[250px] ml-6 justify-center align-middle p-2  bg-sky-500 mt-2 rounded-md font-bold'>Buy Course</button>
+                <button className='h-10 text-center w-[250px] ml-6 justify-center align-middle p-2  bg-sky-500 mt-2 rounded-md font-bold'
+                onClick={() => isPurchased ? toast('Go to Dashboard') : handleBuy()}>{isPurchased?"Purchased":"Buy Course"}</button>
                 <h2 className='font-bold ml-20 mt-2'>Full Lifetime Access</h2>           
             </div>
         </div>

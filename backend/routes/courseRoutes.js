@@ -14,7 +14,7 @@ router.post('/create-course', verifyJwt,upload.fields([
   { name: 'lectures[4][videoFile]', maxCount: 1 },
 ]), createCourse);
 router.get('/getAllCourses',getAllCourses)
-router.get('/:id',verifyJwt,getCourseDetails)
 router.post('/subscribe/:id',verifyJwt,subscribeToCourse)
+router.get('/:id',verifyJwt,getCourseDetails)
 router.get('/getUsersDetails/:id',verifyJwt,GetUsersDetailsSubscribedToCourse)
 export default router;
