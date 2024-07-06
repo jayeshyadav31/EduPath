@@ -9,6 +9,7 @@ const SuccessPaymentPage = () => {
   const searchParams = new URLSearchParams(location.search);
   const checkoutId = searchParams.get('checkout_id');
   const courseId = searchParams.get('hall_id');
+  console.log(paymentInfo);
   useEffect(() => {
     const fetchPaymentInfo = async () => {
       try {
@@ -96,8 +97,15 @@ const SuccessPaymentPage = () => {
               <p className='text-gray-600'>Payment ID:</p>
               <p>{paymentInfo.id}</p>
             </div>
-            <p className='text-gray-600'>Amount: {paymentInfo.amount_total / 100} INR</p>
-            <p className='text-gray-600'>Status: {paymentInfo.status}</p>
+            <div className='flex'>
+                <p className='text-gray-600'>Amount: </p>
+                <p>{paymentInfo.amount_total / 100} INR</p>
+            </div>
+            <div className='flex'>
+                <p className='text-gray-600'>Status: </p>
+                <p>{paymentInfo.status}</p>
+            </div>
+            
           </div>
         ) : (
           <p>Loading payment details...</p>

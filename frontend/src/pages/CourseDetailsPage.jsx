@@ -14,8 +14,8 @@ function CourseDetailsPage() {
     const {authUser}=useAuthContext()
     const isPurchased = course && course.subscribers?.includes(authUser._id);
     console.log(isPurchased);
-    const handleBuy=(e)=>{
-        e.preventDefault();
+    const handleBuy=()=>{
+        console.log("at handle buy");
         dispatch(addCourse(course));
         navigate('/buyCourse')
     }
@@ -39,7 +39,7 @@ function CourseDetailsPage() {
                 <img src={course?.thumbnail} alt='course-image' className='rounded-lg w-[300px] h-[150px]'/>
                 <h1 className='font-bold ml-6 mt-2'>₹ {course?.price}</h1>
                 <button className='h-10 text-center w-[250px] ml-6 justify-center align-middle p-2  bg-sky-500 mt-2 rounded-md font-bold'
-                onClick={() => isPurchased ? toast('Go to Dashboard') : handleBuy()}>{isPurchased?"Purchased":"Buy Course"}</button>
+                onClick={() => isPurchased ? toast('Go to Dashboard'):handleBuy()}>{isPurchased?"Purchased":"Buy Course"}</button>
                 <h2 className='font-bold ml-20 mt-2'>Full Lifetime Access</h2>           
             </div>
         </div>

@@ -11,6 +11,7 @@ import SuccessPaymentPage from './pages/SuccessPaymentPage'
 import FailurePaymentPage from './pages/FailurePaymentPage'
 import CourseDetailsPage from './pages/CourseDetailsPage'
 import BuyCourse from './pages/BuyCourse'
+import Contact from './pages/Contact'
 function App() {
   const {authUser}=useAuthContext()
   const navigate=useNavigate()
@@ -27,6 +28,7 @@ function App() {
         <Route path='/cancel' element={authUser ? <FailurePaymentPage/>:<Navigate to="/auth" />} />
         <Route path='/:id' element={authUser?<CourseDetailsPage/>:<Navigate to="login" />} />
         <Route path='/buyCourse' element={authUser?<BuyCourse/>:<Navigate to="login" />}/>
+        <Route path='/contact' element={authUser?<Contact/>:<Navigate to="login" />}/>
      </Routes>
     </div>
   )
