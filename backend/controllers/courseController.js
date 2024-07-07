@@ -1,10 +1,11 @@
+
 import mongoose from 'mongoose';
 import Course from '../Models/courseModel.js'
 import ApiError from '../utils/ApiError.js';
 import { uploadOnCloudinary } from '../utils/cloudinary.js';
 const createCourse = async (req, res) => {
     try {
-        const { title, description, instructor_name, price, category,language} = req.body;
+        const { title, description, instructor_name, price, category,language,pdfFileLink} = req.body;
         // console.log(req.files);
         const respo=await uploadOnCloudinary(req.files['thumbnail'][0].path)
         const thumbnail_url = respo.secure_url

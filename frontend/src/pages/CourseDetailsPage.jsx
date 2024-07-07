@@ -13,9 +13,9 @@ function CourseDetailsPage() {
     const dispatch =useDispatch()
     const {authUser}=useAuthContext()
     const isPurchased = course && course.subscribers?.includes(authUser._id);
-    console.log(isPurchased);
+    // console.log(isPurchased);
     const handleBuy=()=>{
-        console.log("at handle buy");
+        // console.log("at handle buy");
         dispatch(addCourse(course));
         navigate('/buyCourse')
     }

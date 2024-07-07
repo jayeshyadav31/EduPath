@@ -17,12 +17,12 @@ function Header() {
                 </Link>
                 {authUser &&
                 <div className="flex space-x-4 mr-5">
-                    <a
+                    <Link
                         to="/dashboard" 
                         className="text-black hover:text-purple-700 p-2 cursor-pointer"
                     >
                         Dashboard
-                    </a>
+                    </Link>
                     <a
                         href='/account' 
                         className="text-black hover:text-purple-700  p-2 cursor-pointer"

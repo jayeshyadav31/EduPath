@@ -42,6 +42,9 @@ const courseSchema = new mongoose.Schema({
   category: {
     type: String
   },
+  pdfFileLink:{
+    type:"String"
+  },
   subscribers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
