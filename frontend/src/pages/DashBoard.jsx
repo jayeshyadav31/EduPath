@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuthContext } from '../context/AuthContext';
 import { toast } from 'react-hot-toast';
 import Card from '../components/Card';
+import { CircularProgress } from '@mui/material';
 
 function DashBoard() {
   const [courses, setCourses] = useState([]);
@@ -23,7 +24,7 @@ function DashBoard() {
           throw new Error('Failed to fetch courses');
         }
       } catch (error) {
-        toast.error(error.message);
+        toast.error('Error fetching courses. Please try again later.');
       } finally {
         setLoading(false);
       }
@@ -42,22 +43,28 @@ function DashBoard() {
   }, [courses, authUser]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress size={64} />
+      </div>
+    );
   }
+
   return (
-    <div className='mt-2'>
-        <h1 className='font-bold text-gray-400 ml-4 text-lg'>Purchased Courses:</h1>
-        <div className='flex flex-wrap space-x-14 border-t-2 border-gray-400 mt-4'>
+    <div className="container mx-auto px-4 mt-8">
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">Purchased Courses</h1>
       {enrolled.length > 0 ? (
-        enrolled.map((course) => (
-          <Card key={course._id} course={course} path={'/YourCourse'} />
-        ))
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {enrolled.map((course) => (
+            <Card key={course._id} course={course} path="/YourCourse" />
+          ))}
+        </div>
       ) : (
-        <p className='justify-center'>No courses enrolled</p>
+        <div className="flex justify-center items-center h-96">
+          <p className="text-lg text-gray-600">No courses enrolled.</p>
+        </div>
       )}
     </div>
-    </div>
-    
   );
 }
 

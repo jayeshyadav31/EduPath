@@ -1,30 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useAuthContext } from '../context/AuthContext';
-import PaymentCard from './PaymentCard';
-
+import PaymentCard from './PaymentCard'
+import usePaymentsByUser from '../hooks/usePaymentsByUser';
 function Payments() {
     const { authUser } = useAuthContext();
-    const [payments, setPayments] = useState([]);
+    const { payments, loading } = usePaymentsByUser()
 
-    useEffect(() => {
-        const fetchPaymentsByUser = async () => {
-            try {
-                const res = await fetch('/api/payment/getPaymentByUser', {
-                    method: "GET",
-                });
-                if (!res.ok) {
-                    throw new Error('Error fetching payments');
-                }
-                const data = await res.json();
-                data.sort((a, b) => new Date(b.payment_date) - new Date(a.payment_date));
-                setPayments(data);
-                console.log(data);
-            } catch (error) {
-                console.error('Error fetching payments:', error.message);
-            }
-        }
-        fetchPaymentsByUser();
-    }, []); 
+    if (loading) {
+        return <p>Loading...</p>;
+    }
 
     return (
         <div>

@@ -16,7 +16,11 @@ function Header() {
                     Edu Path
                 </Link>
                 {authUser &&
-                <div className="flex space-x-4 mr-5">
+                <div className="flex space-x-4 mr-5 font-semibold text-gray-500">
+                    {
+                        authUser.role=='admin' && <Link to="/create" 
+                        className="text-black hover:text-purple-700 p-2 cursor-pointer" >Create Course</Link>
+                    }
                     <Link
                         to="/dashboard" 
                         className="text-black hover:text-purple-700 p-2 cursor-pointer"

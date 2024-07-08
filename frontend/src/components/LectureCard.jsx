@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import ReactHlsPlayer from 'react-hls-player';
 
 function LectureCard({ lecture, index, currentlyOpen, setCurrentlyOpen }) {
   const [show, setShow] = useState(false);
-  const [videoSrc, setVideoSrc] = useState('');
-
+  const [playing, setPlaying] = useState(false);
+  console.log(lecture);
   useEffect(() => {
-    if (currentlyOpen === true && lecture.videoFile) {
-      setVideoSrc(lecture.videoFile);  // Set the video file URL
-    } else {
-      setVideoSrc('');
-    }
-  }, [currentlyOpen, index, lecture.videoFile]);
+    setShow(currentlyOpen);
+  }, [currentlyOpen]);
 
   const handleShow = () => {
     setShow(!show);
@@ -24,17 +21,20 @@ function LectureCard({ lecture, index, currentlyOpen, setCurrentlyOpen }) {
         <h1>{currentlyOpen === true ? '🔼' : '🔽'}</h1>
       </div>
       {currentlyOpen === true && (
-        <div className='p-3 border-2 border-t-0 border-gray-700 rounded-b-md w-6/12'>
+        <div className='p-6 border-2 border-t-0 border-gray-700 rounded-b-md w-6/12'>
           <p className='ml-2 font-serif text-gray-400'>{lecture?.description}</p>
-          {videoSrc && (
-            <video
-              controls
-              controlsList="nodownload"
-              className='mt-4 w-full rounded-sm'
-            >
-              <source src={videoSrc} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+          {lecture.videoFile ? (
+            <ReactHlsPlayer
+              src={lecture.videoFile}  // HLS URL of the video
+              controls={true}
+              autoPlay={false}
+              width='100%'
+              height='auto'
+              className='mt-2 rounded-md'
+              onClick={() => setPlaying(!playing)}
+            />
+          ) : (
+            <p>No video available for this lecture.</p>
           )}
         </div>
       )}
@@ -43,5 +43,3 @@ function LectureCard({ lecture, index, currentlyOpen, setCurrentlyOpen }) {
 }
 
 export default LectureCard;
-
-

@@ -28,6 +28,8 @@ const signUpUser = async (req, res, next) => {
         return res.status(201).cookie("accessToken", accessToken, options).json({
             userName: createdUser.username,
             email: createdUser.email,
+            _id:createdUser._id,
+            role:createdUser.role
         });
     } catch (error) {
         console.error(`Error in signUpUser: ${error.message}`);
@@ -60,7 +62,8 @@ const loginUser = async (req, res, next) => {
         return res.status(200).cookie("accessToken", accessToken, options).json({
             userName: user.username,
             email: user.email,
-            _id:user._id
+            _id:user._id,
+            role:user.role
         });
     } catch (error) {
         console.error(`Error in loginUser: ${error.message}`);

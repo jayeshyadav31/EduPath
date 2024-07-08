@@ -21,13 +21,15 @@ const useSignup = () => {
 
 			const data = await res.json();
 			if (data.error) {
-				throw new Error(data.error);
+				toast.error(data.error)
+				console.log(data);
 			}
 			setAuthUser(data);
 			localStorage.setItem("user", JSON.stringify(data));
             toast.success("Account Created successfully");
 			
 		} catch (error) {
+			console.log(error);
 			toast.error(error.message);
 		} finally {
 			setLoading(false);
@@ -38,11 +40,17 @@ const useSignup = () => {
 };
 export default useSignup;
 
-function handleInputErrors({ username,email, password, confirmPassword}) {
-	
+function handleInputErrors({ username, email, password, confirmPassword }) {
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 	if (!email || !username || !password || !confirmPassword) {
 		toast.error("Please fill in all fields");
 		console.log('error');
+		return false;
+	}
+
+	if (!emailRegex.test(email)) {
+		toast.error("Please enter a valid email address");
 		return false;
 	}
 

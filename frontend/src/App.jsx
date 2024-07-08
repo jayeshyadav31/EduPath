@@ -14,6 +14,7 @@ import BuyCourse from './pages/BuyCourse'
 import Contact from './pages/Contact'
 import DashBoard from './pages/DashBoard'
 import CoursePage from './pages/CoursePage'
+import CreateCourse from './pages/CreateCourse'
 function App() {
   const {authUser}=useAuthContext()
   const navigate=useNavigate()
@@ -33,6 +34,7 @@ function App() {
         <Route path='/buyCourse' element={authUser?<BuyCourse/>:<Navigate to="login" />}/>
         <Route path='/contact' element={authUser?<Contact/>:<Navigate to="login" />}/>
         <Route path='/dashboard' element={authUser?<DashBoard/>:<Navigate to="login" />}/>
+        <Route path='/create' element={authUser?<CreateCourse/>:<Navigate to="login" />}/>
      </Routes>
     </div>
   )

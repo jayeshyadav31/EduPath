@@ -17,13 +17,7 @@ function UpdateUserProfile({ user, onClose }) {
     const file = e.target.files[0];
     setProfilePicFile(file);
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImgUrl(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
+    
   };
 
   const handleSubmit = async (e) => {
