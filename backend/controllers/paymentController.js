@@ -5,9 +5,19 @@ const savePayment = async (req, res) => {
     try {
         const userId = req.user._id;
         const courseId = req.params.id;
-        console.log(courseId);
         const { payment_id, amount, status } = req.body;
+        const existingPayment = await Payment.findOne({
+            payment_id: payment_id
+        });
 
+        if (existingPayment) {
+            existingPayment.status = status;
+            existingPayment.amount = amount;
+            await existingPayment.save();
+
+            return res.status(200).json({ message: "Payment updated successfully", payment: existingPayment });
+        }
+        // If no existing payment, create a new payment
         const new_payment = new Payment({
             user_id: userId,
             course_id: courseId,

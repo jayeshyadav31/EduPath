@@ -1,12 +1,11 @@
 import mongoose from 'mongoose';
 import Course from '../Models/courseModel.js';
 import ApiError from '../utils/ApiError.js';
-import { promisify } from 'util';
-import { exec } from 'child_process';
-const execPromise = promisify(exec);
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const createCourse = async (req, res) => {
     try {
+        console.log(req.body);
         const { title, description, instructor_name, price, category, language, pdfFileLink } = req.body;
         const respo = await uploadOnCloudinary(req.files['thumbnail'][0].path);
         const thumbnail_url = respo.secure_url;
@@ -20,7 +19,7 @@ const createCourse = async (req, res) => {
                 lectures[i]['videoFile'] = response.secure_url;
             }
         }
-
+        console.log(title,description,instructor_name,price,language,category,thumbnail_url,lectures)
         const newCourse = new Course({
             title,
             description,
@@ -30,9 +29,10 @@ const createCourse = async (req, res) => {
             category,
             thumbnail: thumbnail_url,
             lectures,
+            pdfFileLink,
         });
 
-        await newCourse.save();
+         await newCourse.save();
         res.status(201).json({ message: 'Course created successfully', newCourse });
     } catch (error) {
         console.log({ message: 'Error creating course', error: error.message });

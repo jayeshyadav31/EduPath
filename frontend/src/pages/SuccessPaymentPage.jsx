@@ -9,7 +9,8 @@ const SuccessPaymentPage = () => {
   const searchParams = new URLSearchParams(location.search);
   const checkoutId = searchParams.get('checkout_id');
   const courseId = searchParams.get('hall_id');
-  console.log(paymentInfo);
+  const { authUser } = useAuthContext();
+
   useEffect(() => {
     const fetchPaymentInfo = async () => {
       try {
@@ -32,41 +33,51 @@ const SuccessPaymentPage = () => {
     };
 
     fetchPaymentInfo();
-  }, []); 
+  }, [checkoutId]);
 
   useEffect(() => {
     const createPayment = async () => {
-      if (paymentInfo && courseId) {
-        try {
-          const response = await fetch(`/api/payment/savePayment/${courseId}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              payment_id: paymentInfo.id,
-              amount: paymentInfo.amount_total / 100,
-              status: paymentInfo.status === 'complete' ? 'completed' : paymentInfo.status,
-            }),
-          });
+      if (!paymentInfo) return;
 
-          if (!response.ok) {
+      try {
+        const response = await fetch(`/api/payment/savePayment/${courseId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            payment_id: paymentInfo.id,
+            amount: paymentInfo.amount_total / 100,
+            status: paymentInfo.status === 'complete' ? 'completed' : paymentInfo.status,
+            user_id: authUser._id,
+            course_id: courseId,
+          }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          if (response.status === 409) {
+            toast.error('Payment already exists');
+          } else {
             throw new Error('Failed to save payment');
           }
-
-          const data = await response.json();
-          console.log('Payment saved successfully:', data);
-        } catch (error) {
-          console.error('Error in creating payment:', error);
-          toast.error('Error in creating payment');
         }
+
+        const data = await response.json();
+        console.log('Payment saved successfully:', data);
+      } catch (error) {
+        console.error('Error in creating payment:', error);
+        toast.error('Error in creating payment');
       }
     };
+
     createPayment();
-  }, []); 
+  }, [paymentInfo, courseId, authUser]);
 
   useEffect(() => {
     const subscribe = async () => {
+      if (!paymentInfo) return;
+
       try {
         await fetch(`/api/courses/subscribe/${courseId}`, {
           method: 'POST',
@@ -82,37 +93,39 @@ const SuccessPaymentPage = () => {
     };
 
     subscribe();
-  }, []);
+  }, [paymentInfo, courseId]);
+
   return (
-    <div className="flex">
-    <div className='p-4 ml-[350px] w-[750px] border-2 border-gray-400 rounded-md'>
-      <div className="font-bold">
-        <h1 className='text-xl text-gray-400 text-center mb-4'>Payment of Course is Successful!!</h1>
-      </div>
-      <div className='font-semibold'>
-        <h2 className='text-gray-400 text-lg mb-2'>Payment Details</h2>
-        {paymentInfo ? (
-          <div>
-            <div className='flex justify-between mb-2'>
-              <p className='text-gray-600'>Payment ID:</p>
-              <p>{paymentInfo.id}</p>
+    <div className="flex items-center min-h-screen bg-gray-100">
+      <div className='p-6 bg-white shadow-lg rounded-lg w-full max-w-lg'>
+        <div className="font-bold text-2xl text-center text-gray-700 mb-4">
+          Payment Successful!
+        </div>
+        <div className='font-semibold text-gray-700'>
+          <h2 className='text-lg mb-4 text-center'>Payment Details</h2>
+          {paymentInfo ? (
+            <div className="space-y-4">
+              <div className='flex justify-between items-center'>
+                <p className='text-gray-600'>Payment ID:</p>
+                <p className='text-gray-800 font-medium'>{paymentInfo.id}</p>
+              </div>
+              <div className='flex justify-between items-center'>
+                <p className='text-gray-600'>Amount:</p>
+                <p className='text-gray-800 font-medium'>{paymentInfo.amount_total / 100} INR</p>
+              </div>
+              <div className='flex justify-between items-center'>
+                <p className='text-gray-600'>Status:</p>
+                <p className={`font-medium ${paymentInfo.status === 'completed' ? 'text-green-600' : 'text-red-600'}`}>
+                  {paymentInfo.status}
+                </p>
+              </div>
             </div>
-            <div className='flex'>
-                <p className='text-gray-600'>Amount: </p>
-                <p>{paymentInfo.amount_total / 100} INR</p>
-            </div>
-            <div className='flex'>
-                <p className='text-gray-600'>Status: </p>
-                <p>{paymentInfo.status}</p>
-            </div>
-            
-          </div>
-        ) : (
-          <p>Loading payment details...</p>
-        )}
+          ) : (
+            <p className="text-center text-gray-500">Loading payment details...</p>
+          )}
+        </div>
       </div>
     </div>
-  </div>
   );
 };
 

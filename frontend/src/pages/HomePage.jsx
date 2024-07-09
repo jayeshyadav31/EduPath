@@ -9,7 +9,7 @@ function HomePage() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await fetch(`/api/courses/getAllCourses`, {
+        const res = await fetch('/api/courses/getAllCourses', {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
@@ -42,7 +42,7 @@ function HomePage() {
         <h1 className='font-bold text-3xl text-gray-600'>All the skills you need in one place</h1>
         <h2 className='text-gray-400 mt-1 text-xl'>From critical skills to technical topics, EduPath supports your professional development.</h2>
       </div>
-    <div className='flex flex-wrap space-x-14 border-t-2 border-gray-400 mt-4'>
+    <div className='flex flex-wrap space-x-10 justify-start border-t-2 border-gray-400 mt-4'>
       {courses && courses?.map((course) => (
         <Card key={course._id} course={course} />
       ))}

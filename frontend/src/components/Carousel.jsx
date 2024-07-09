@@ -10,13 +10,13 @@ const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    if (images.length === 0) return; // Skip interval if no images
+    if (images.length === 0) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 5000);
 
-    return () => clearInterval(interval); // Cleanup function
+    return () => clearInterval(interval); 
   }, [images.length]);
 
   const handlePrev = () => {
@@ -46,14 +46,14 @@ const Carousel = () => {
         onClick={handlePrev}
         aria-label="Previous Slide" 
       >
-        Prev
+        ◀️
       </button>
       <button
         className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-lg focus:outline-none"
         onClick={handleNext}
         aria-label="Next Slide" 
       >
-        Next
+        ▶️
       </button>
     </div>
   );
