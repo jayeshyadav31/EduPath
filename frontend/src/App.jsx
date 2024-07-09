@@ -15,9 +15,9 @@ import Contact from './pages/Contact'
 import DashBoard from './pages/DashBoard'
 import CoursePage from './pages/CoursePage'
 import CreateCourse from './pages/CreateCourse'
+import PaymentDetails from './pages/PaymentDetails'
 function App() {
   const {authUser}=useAuthContext()
-  const navigate=useNavigate()
   return (
     <div className='justify-center h-screen flex-col p-4 items-center'>
       <Toaster/>
@@ -35,6 +35,7 @@ function App() {
         <Route path='/contact' element={authUser?<Contact/>:<Navigate to="login" />}/>
         <Route path='/dashboard' element={authUser?<DashBoard/>:<Navigate to="login" />}/>
         <Route path='/create' element={authUser?<CreateCourse/>:<Navigate to="login" />}/>
+        <Route path='/paymentDetails/:id' element={authUser?<PaymentDetails/>:<Navigate to="login" />}/>
      </Routes>
     </div>
   )
