@@ -15,7 +15,6 @@ function CourseDetailsPage() {
     const isPurchased = course && course.subscribers?.includes(authUser._id);
     // console.log(isPurchased);
     const handleBuy=()=>{
-        // console.log("at handle buy");
         dispatch(addCourse(course));
         navigate('/buyCourse')
     }
