@@ -96,7 +96,7 @@ const SuccessPaymentPage = () => {
   }, [paymentInfo, courseId]);
 
   return (
-    <div className="flex items-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className='p-6 bg-white shadow-lg rounded-lg w-full max-w-lg'>
         <div className="font-bold text-2xl text-center text-gray-700 mb-4">
           Payment Successful!
