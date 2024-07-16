@@ -1,4 +1,4 @@
-# EduPath
+# EduPath ( https://edupath-1.onrender.com )
 
 EduPath is a web application designed to provide a seamless learning experience for users, focusing on a variety of courses and educational content.
 
